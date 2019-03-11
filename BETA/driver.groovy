@@ -36,8 +36,8 @@
  *
  * 
  *
- *
- *  
+ *  V1.0.2 - Added HSM 
+ *  V1.0.1 - Added Mode
  *  V1.0.0 - POC
  *
  */
@@ -76,8 +76,16 @@ metadata {
 		command "LastEvent", ["string"]
 		command "refresh"
 		command "clear"
-
+		command "listOpenContacts", ["string"]
+		command "setCurrentMode", ["string"]
+		command "setHSMstate", ["string"]
+		
 		attribute "CustomDisplay", "string"
+		attribute "currentOpenContacts", "string"
+		attribute "currentMode", "string"
+		attribute "currentHSMstatus", "string"
+		
+		
 		// Base Info   
 		attribute  " ", "string"
         attribute "DriverVersion", "string"
@@ -88,7 +96,7 @@ metadata {
    preferences() {
 	   		input "fweight", "enum",  title: "Font Weight", submitOnChange: true, defaultValue: "Normal", options: ["Normal", "Italic", "Bold"]
 			input "fcolour", "text",  title: "Font Colour (Hex Value)", defaultValue:"FFFFFF", submitOnChange: true
-	   		input "fsize", "number",  title: "Relative Font Size", defaultValue:"5", submitOnChange: true
+	   		input "fsize", "number",  title: "Initial Font Size", defaultValue:"5", submitOnChange: true
 	   
    }	
 	   
@@ -103,7 +111,29 @@ def updated() {
 	
 }
 
-def refresh(){compile()}
+def setCurrentMode(modeIn){
+	
+	state.modeNow = modeIn
+	sendEvent(name: "currentMode", value: state.modeNow, isStateChange: true)
+	
+}
+
+def setHSMstate(hsmIn){
+	state.hsmNow = modeIn
+	sendEvent(name: "currentHSMstatus", value: state.hsmNow, isStateChange: true)
+	
+	
+}
+
+def listOpenContacts(openNow){
+	state.openContacts = openNow
+	sendEvent(name: "currentOpenContacts", value: state.openContacts, isStateChange: true)
+//	compile()
+}
+
+def refresh(){
+
+	compile()}
 def clear(){
 	state.dashFormat = " "
 	state.in1a = " "
@@ -131,8 +161,9 @@ def clear(){
 	state.in7c = " "
 	state.in8c = " "
 	state.dashFormat = " "
-	
+	state.openContacts = " "
 	sendEvent(name: "CustomDisplay", value: state.dashFormat, isStateChange: true)
+	sendEvent(name: "currentOpenContacts", value: state.openContacts, isStateChange: true)
 }
 
 def compile() {
@@ -180,7 +211,7 @@ def standardDash(){
 	state.dashFormat +="<div><font color = $state.fc><font size = $state.fs>$state.fw1 ${state.in7a} ${state.in7b} ${state.in7c} $state.fw2</font></font><br></div>"
 	state.dashFormat +="<div><font color = $state.fc><font size = $state.fs>$state.fw1 ${state.in8a} ${state.in8b} ${state.in8c} $state.fw2</font></font><br></div>"
 	sendEvent(name: "CustomDisplay", value: state.dashFormat, isStateChange: true)
-
+//	sendEvent(name: "currentOpenContacts", value: state.openContacts1, isStateChange: true)
 	
 	
 }
@@ -295,7 +326,7 @@ def updateCheck(){
 }
 
 def setVersion(){
-    state.version = "1.0.0"
+    state.version = "1.0.2"
     state.InternalName = "DisplayTile"
    	state.CobraAppCheck = "displaytile.json"
     
