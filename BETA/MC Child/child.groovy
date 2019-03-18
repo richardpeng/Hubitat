@@ -3004,9 +3004,14 @@ def speakNow(){
 				startTimerPower()  
     		}
     		if(state.msgType == "Voice Message (SpeechSynth)"){
+				if(esDevice == true){
+					LOGDEBUG("SpeakNow - Echo Speaks - setting volume to: $state.volumeAll")
+					speaker.setVolumeSpeakAndRestore(state.volumeES, state.fullPhrase)}
+				if(esDevice == false){
 			    LOGDEBUG("Power - Playing Message - Sending Message: $state.fullPhrase")   
 			    speechSynthNow(state.fullPhrase) 
                 startTimerPower()
+				}
         	}         
 			if(state.msgType == "SMS Message" && state.msg1 != null){
 				LOGDEBUG("Power - SMS Message - Sending Message: $state.fullPhrase")
