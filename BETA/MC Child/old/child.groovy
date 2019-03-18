@@ -636,7 +636,7 @@ def speakerInputs(){
 	
 		
         input "speaker", "capability.musicPlayer", title: "All Music Player Device(s)", required: true, multiple: true, submitOnChange: true
-		
+		input name: "esDevice", type: "bool", defaultValue: "false", title: "Enable for EchoSpeaks device"
 		input "doVolume", "bool", title: "Set Volume before speaking", required: true, defaultValue: true, submitOnChange: true
 		if(doVolume == true){ 
 			if(esDevice == true){
@@ -825,7 +825,6 @@ def speakerInputs(){
 	}
     else if(state.msgType == "Voice Message (SpeechSynth)"){ 
 		input "speaker", "capability.speechSynthesis", title: "Speech Synthesis Device(s)", required: false, multiple: true
-		input name: "esDevice", type: "bool", defaultValue: "false", title: "Enable for EchoSpeaks device"
 		input "doVolume", "bool", title: "Set Volume before speaking", required: true, defaultValue: true, submitOnChange: true
 		if(doVolume == true){
   		input "volume1", "number", title: "Speaker volume", description: "0-100%",   required: true
