@@ -826,11 +826,17 @@ def speakerInputs(){
     else if(state.msgType == "Voice Message (SpeechSynth)"){ 
 		input "speaker", "capability.speechSynthesis", title: "Speech Synthesis Device(s)", required: false, multiple: true
 		input name: "esDevice", type: "bool", defaultValue: "false", title: "Enable for EchoSpeaks device"
+		
+		if(esDevice == true){
+				input "volume1", "number", title: "'Echo Speaks' volume", description: "0-100%",  required: true
+			state.volumeES = volume1
+			}
+		else{
 		input "doVolume", "bool", title: "Set Volume before speaking", required: true, defaultValue: true, submitOnChange: true
 		if(doVolume == true){
   		input "volume1", "number", title: "Speaker volume", description: "0-100%",   required: true
         state.volumeAll = volume1
-		}
+		}}
 	}
     else if(state.msgType == "Missed Message (MusicPlayer)"){ 
 		input "missedPresenceSensor1", "capability.presenceSensor", title: "Select presence sensor", required: true, multiple: false
