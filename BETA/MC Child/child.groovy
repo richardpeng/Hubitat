@@ -3155,10 +3155,10 @@ def speechSynthNow(inMsg){
 }				
   
 def processSynth(){
-	if(doVolume == true){
+	if(doVolume == true && esDevice == false){
 		speaker.setVolume(state.volumeAll)  // not all devices will accept this setting. - switch off if errors on device
 	}
-	if(doVolume == false){LOGDEBUG("Speaker volume not being set as this feature is disabled")}
+	if(doVolume == false || esDevice == false){LOGDEBUG("Speaker volume not being set as this feature is disabled")}
 						  
 			if (state.soundTypeSynth == '%CHIME%')
 			speaker.chime()
