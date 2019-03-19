@@ -156,12 +156,8 @@ def subscribeNow(){
 	if(device28){subscribe(device28, device28attrib, device28Handler)}
 	if(device29){subscribe(device29, device29attrib, device29Handler)}
 	if(device30){subscribe(device30, device30attrib, device30Handler)}
-	if(device31){subscribe(device31, device31attrib, device31andler)}
-	if(device32){subscribe(device32, device32attrib, device32andler)}
-	
-	
-	
-	
+	if(device31){subscribe(device31, device31attrib, device31Handler)}
+	if(device32){subscribe(device32, device32attrib, device32Handler)}
 	if(sensors1){subscribe(sensors1, "contact", contactHandler)}
 	subscribe(location, "mode", modeEventHandler)
 	subscribe(location, "hsmStatus", hsmStatusHandler)
@@ -212,7 +208,7 @@ def line1() {
 		input "imageBorder1c", "number", title: "Enter Border Size", required: true, defaultValue: 0 , multiple: false 	
 		}
 		
-		input "line1dType", "enum", required: false, title: "Line1 Column D", submitOnChange: true, options: ["Text", "Device Attribute", "Image URL", "Blank"] 	
+	input "line1dType", "enum", required: false, title: "Line1 Column D", submitOnChange: true, options: ["Text", "Device Attribute", "Image URL", "Blank"] 	
 		if(line1dType == "Text"){input "line1dText", "text", required: true, title: "Text to show?"	}
 		if(line1dType == "Device Attribute"){
 		input "device25", "capability.*", title: "Select Device", required: true, multiple: false, submitOnChange: true	

@@ -35,7 +35,7 @@
  *  Changes:
  *
  *
- *  V1.0.6 - Added 'D' line slots
+ *  V1.0.6 - Added 'D' line slots to make 4 per line
  *  V1.0.5 - Added switchable debug - Auto turns off after 30 mins
  *  V1.0.4 - Reformatted attribute to reduce size
  *  V1.0.3 - Debug
@@ -58,7 +58,7 @@ metadata {
 		command "line2a", ["string"]
 		command "line2b", ["string"]
 		command "line2c", ["string"]
-		command "linedc", ["string"]
+		command "line2d", ["string"]
 		command "line3a", ["string"]
 		command "line3b", ["string"]
 		command "line3c", ["string"]
