@@ -26,10 +26,14 @@
  *
  *-------------------------------------------------------------------------------------------------------------------
  *
- *  Last Update: 01/04/2019
+ *  Last Update: 03/04/2019
  *
  *  Changes:
  *
+ *
+ *
+ *
+ *  V1.0.1 - Debug typo on lines 158 & 159 
  *  V1.0.0 - POC
  *
  */
@@ -151,8 +155,8 @@ def subscribeNow(){
 	if(device28){subscribe(device28, device28attrib, device28Handler)}
 	if(device29){subscribe(device29, device29attrib, device29Handler)}
 	if(device30){subscribe(device30, device30attrib, device30Handler)}
-	if(device31){subscribe(device31, device31attrib, device31andler)}
-	if(device32){subscribe(device32, device32attrib, device32andler)}
+	if(device31){subscribe(device31, device31attrib, device31Handler)}
+	if(device32){subscribe(device32, device32attrib, device32Handler)}
 	
 	if(sensors1){subscribe(sensors1, "contact", contactHandler)}
 	subscribe(location, "mode", modeEventHandler)
@@ -164,11 +168,15 @@ def line1() {
 
 	section ("Line 1 Configuration"){
 			   
-	input "line1aType", "enum", required: false, title: "Line1 Column A", submitOnChange: true, options: ["Text", "Device Attribute", "Image URL", "Blank"] 	
+	input "line1aType", "enum", required: false, title: "Line1 Column A", submitOnChange: true, options: ["Text", "Dashboard Link", "Device Attribute", "Image URL", "Blank"] 	
 		if(line1aType == "Text"){input "line1aText", "text", required: true, title: "Text to show?"	}
 		if(line1aType == "Device Attribute"){
 		input "device1", "capability.*", title: "Select Device", required: true, multiple: false, submitOnChange: true	
 		input "device1attrib", "text", title: "Enter Device Attribute", required: true, multiple: false	
+		}
+		if(line1aType == "Dashboard Link"){
+		input "dLink1a", "text", title: "URL to Dashboard", required: true, multiple: false, submitOnChange: true	
+		input "dLink1aText", "text", title: "Link Display Name", required: true, multiple: false	
 		}
 		if(line1aType == "Image URL"){
 		input "imageURL1a", "text", title: "Image URL", required: true, multiple: false, submitOnChange: true	
@@ -660,6 +668,9 @@ def line8() {
 
 def sendLines(){
 		LOGDEBUG("Running sendlines... Updating data in each line & sending data to the dashboard")
+	state.dlink1aFull = "<a href ='" +dLink1a +"'>" +dLink1aText +'</a>'
+//	<a href="http://10.1.20.103/apps/api/434/dashboard/435?access_token=106823db-11bc-4749-8e5d-3d49efb63cd4&local=true"> Dashboard</a>
+	
 	state.imageURL1a = "<img src='" +imageURL1a +"' width='" +imageWidth1a +"' height='" +imageHeight1a +"' border='" +imageBorder1a +"'>"
 	state.imageURL1b = "<img src='" +imageURL1b +"' width='" +imageWidth1b +"' height='" +imageHeight1b +"' border='" +imageBorder1b +"'>"
 	state.imageURL1c = "<img src='" +imageURL1c +"' width='" +imageWidth1c +"' height='" +imageHeight1c +"' border='" +imageBorder1c +"'>"
@@ -700,7 +711,7 @@ def sendLines(){
 	state.imageURL8c = "<img src='" +imageURL8c +"' width='" +imageWidth8c +"' height='" +imageHeight8c +"' border='" +imageBorder8c +"'>"
 	state.imageURL8d = "<img src='" +imageURL8d +"' width='" +imageWidth8d +"' height='" +imageHeight8d +"' border='" +imageBorder8d +"'>"
 	
-
+	if(line1aType == "Dashboard Link"){state.line1aVal = state.dlink1aFull}
 	if(line1aType == "Blank" || line1aType == null){state.line1aVal = " "}
 	if(line1aType == "Text"){state.line1aVal = line1aText}
 	if(line1aType == "Device Attribute"){state.line1aVal = state.dev1Val}
@@ -1394,7 +1405,7 @@ def setDefaults(){
 
     
 def setVersion(){
-		state.version = "1.0.0"	 
+		state.version = "1.0.1"	 
 		state.InternalName = "SuperTileDisplay"
     	state.ExternalName = "Super Tile Display"
 		state.preCheckMessage = "This app was designed to use a special Virtual Display device  to display data on a dashboard tile"
