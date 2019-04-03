@@ -168,7 +168,7 @@ def line1() {
 
 	section ("Line 1 Configuration"){
 			   
-	input "line1aType", "enum", required: false, title: "Line1 Column A", submitOnChange: true, options: ["Text", "Dashboard Link", "Device Attribute", "Image URL", "Blank"] 	
+	input "line1aType", "enum", required: false, title: "Line1 Column A", submitOnChange: true, options: ["Text", "Device Attribute", "Image URL", "Blank"] 	// "Dashboard Link",
 		if(line1aType == "Text"){input "line1aText", "text", required: true, title: "Text to show?"	}
 		if(line1aType == "Device Attribute"){
 		input "device1", "capability.*", title: "Select Device", required: true, multiple: false, submitOnChange: true	
@@ -668,7 +668,7 @@ def line8() {
 
 def sendLines(){
 		LOGDEBUG("Running sendlines... Updating data in each line & sending data to the dashboard")
-	state.dlink1aFull = "<a href ='" +dLink1a +"'>" +dLink1aText +'</a>'
+//	state.dlink1aFull = "<a href ='" +dLink1a +"'>" +dLink1aText +'</a>'
 //	<a href="http://10.1.20.103/apps/api/434/dashboard/435?access_token=106823db-11bc-4749-8e5d-3d49efb63cd4&local=true"> Dashboard</a>
 	
 	state.imageURL1a = "<img src='" +imageURL1a +"' width='" +imageWidth1a +"' height='" +imageHeight1a +"' border='" +imageBorder1a +"'>"
@@ -711,7 +711,7 @@ def sendLines(){
 	state.imageURL8c = "<img src='" +imageURL8c +"' width='" +imageWidth8c +"' height='" +imageHeight8c +"' border='" +imageBorder8c +"'>"
 	state.imageURL8d = "<img src='" +imageURL8d +"' width='" +imageWidth8d +"' height='" +imageHeight8d +"' border='" +imageBorder8d +"'>"
 	
-	if(line1aType == "Dashboard Link"){state.line1aVal = state.dlink1aFull}
+//	if(line1aType == "Dashboard Link"){state.line1aVal = state.dlink1aFull}
 	if(line1aType == "Blank" || line1aType == null){state.line1aVal = " "}
 	if(line1aType == "Text"){state.line1aVal = line1aText}
 	if(line1aType == "Device Attribute"){state.line1aVal = state.dev1Val}
