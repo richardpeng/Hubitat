@@ -27,11 +27,11 @@
  *-------------------------------------------------------------------------------------------------------------------
  *
  *  
- *  Last Update: 01/04/2019
+ *  Last Update: 04/04/2019
  *
  *  Changes:
  *
- *
+ *  V1.1.0 - Added initial state so it should immediately display attribute in tile selection
  *  V1.0.0 - POC
  *
  */
@@ -99,12 +99,13 @@ def initialize(){updated()}
 def updated() {
     log.info "Updated called"
     version()
-	logCheck()}
+	logCheck()
+	initialState()}
 	def overRide(countIn){
 	state.status = countIn
 	if(state.status != "stop"){
 	log.warn "supertileDevice - state.status = $state.status"
-		sendEvent(name: "CustomDisplay", value: state.status, isStateChange: true)}
+	sendEvent(name: "CustomDisplay", value: "Initial State - Awaiting Data from App", isStateChange: true)}
 	if(state.status == "stop"){refresh()}}	
 	def setCurrentMode(modeIn){
 	state.modeNow = modeIn
@@ -118,6 +119,7 @@ def updated() {
 	def logsOff() {
     log.warn "Debug logging disabled..."
 	device.updateSetting("debugMode", [value: "false", type: "bool"])}
+	def initialState(){sendEvent(name: "CustomDisplay", value: "Initial State - Awaiting Data from App", isStateChange: true)}
 	def refresh(){compile()}
 	def clear(){
 	state.dashFormat = " "
@@ -214,7 +216,7 @@ def updated() {
 	state.CharNumber = state.dashFormat.length()
 	if(state.CharNumber > 1024){
 		LOGDEBUG("Too many characters for an attribute tile")
-	overRide("Unable to display<br>Please Check Character Number<br>(1024 Max)")
+	overRide("Unable to Display<br>Please Check Character Number<br>(1024 Max)")
 	}
 	sendEvent(name: "CustomDisplay", value: state.dashFormat, isStateChange: true)
 	LOGDEBUG( "Attribute Content: $state.dashFormat")
@@ -344,7 +346,7 @@ def updateCheck(){
 }
 
 def setVersion(){
-    state.version = "1.0.0"
+    state.version = "1.1.0"
     state.InternalName = "DisplayTile"
    	state.CobraAppCheck = "displaytile.json"     
 }
