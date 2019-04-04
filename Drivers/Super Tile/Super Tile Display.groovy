@@ -81,7 +81,7 @@ metadata {
 		command "setHSMstate", ["string"]
 		command "overRide", ["string"]
 		attribute "CustomDisplay", "string"
-		attribute "currentOpenContacts", "string"
+	//	attribute "currentOpenContacts", "string"
 		attribute "currentMode", "string"
 		attribute "currentHSMstatus", "string"
 		attribute "CharacterNumber", "string"  
