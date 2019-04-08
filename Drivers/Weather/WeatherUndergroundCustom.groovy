@@ -18,6 +18,8 @@
  *
  *  Last Update 08/04/2019
  *
+ *
+ *  V4.1.0 - Made icons optional
  *  V4.0.0 - Reformatted and recoded to allow use with new WU api
  *  V3.1.0 - Added Icons for current and forecast weather for use with new tile app
  *  V3.0.0 - Updated info checking.
@@ -123,7 +125,8 @@ metadata {
             input "apiKey", "text", required: true, title: "API Key"
             input "pollLocation", "text", required: true, title: "Station ID"
 			input "unitFormat", "enum", required: true, title: "Unit Format",  options: ["Imperial", "Metric", "UK Hybrid"]
-			input "iconURL1", "text", required: true, title: "Icon Base URL"
+			input "useIcons", "bool", required: false, title: "Use externally hosted icons (Optional)", defaultValue: false
+			if(useIcons){input "iconURL1", "text", required: true, title: "Icon Base URL"}
             input "pollIntervalLimit", "number", title: "Poll Interval Limit:", required: true, defaultValue: 1
             input "autoPoll", "bool", required: false, title: "Enable Auto Poll"
             input "pollInterval", "enum", title: "Auto Poll Interval:", required: false, defaultValue: "5 Minutes", options: ["5 Minutes", "10 Minutes", "15 Minutes", "30 Minutes", "1 Hour", "3 Hours"]
@@ -333,12 +336,14 @@ def poll2(){
 			sendEvent(name: "UVHarm", value: resp2.data.daypart[0].uvDescription[0], isStateChange: true) 
 			
 			def dayOrNight = (resp2.data.daypart[0].dayOrNight[0])
-			log.warn "day/night is $dayOrNight"
-			
+//			log.warn "day/night is $dayOrNight"
+			if(useIcons){
 			state.iconCode = (resp2.data.daypart[0].iconCode[0])
 			state.iconURL = iconURL1 +state.iconCode +".png"
 			state.icon = "<img src=" +iconURL1 +state.iconCode +".png" +">"
 			sendEvent(name: "forecastIcon", value: state.icon, isStateChange: true) 
+			}
+				
 //			sendEvent(name: "localSunrise", value: resp2.data.sunriseTimeLocal[0] ,isStateChange: true)
 //			sendEvent(name: "localSunset", value: resp2.data.sunsetTimeLocal[0] ,isStateChange: true)       
         	state.lastPoll = now()     
@@ -438,7 +443,7 @@ def updateCheck(){
 }
 
 def setVersion(){
-    state.version = "4.0.0"
+    state.version = "4.1.0"
     state.InternalName = "WUWeatherDriver"
    	state.CobraAppCheck = "customwu.json"
     sendEvent(name: "DriverAuthor", value: "Cobra", isStateChange: true)
