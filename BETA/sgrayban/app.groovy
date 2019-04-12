@@ -38,8 +38,7 @@
  *
  *  Changes:
  *
- * 
- *  V1.3.0 - added switch to reverse temperatures
+ *  V1.3.0 - added reverse switch
  *  V1.2.0 - Added switch(off) - Release code
  *  V1.1.1 - debug 
  *  V1.1.0 - added second 'enabling' temperature sensor
@@ -52,7 +51,7 @@
 
 
 definition(
-    name: "Kennel Thermostat Control",
+    name: "Kennel Thermostat Control V1.3.0",
     namespace: "Cobra",
     author: "Andrew Parker",
     description: "This App was designed to control a kennel heater - Switching on/off around a set temperature with a motion sensor to increase the set temperature range",
@@ -84,7 +83,7 @@ preferences {
 	section("<b><u>Temperature Settings</b></u> <br>(If Motion Sensor <i>'Active'</i> or within delay period)") { 
   	input "temperature1", "number", title: "If temperature goes below this setting the switch will be ON ", defaultValue: 75, required: true
     input "temperature2", "number", title: "If temperature goes above this setting the switch will be OFF ", defaultValue: 85, required: true   
-		section() {input "reverseMode", "bool", title: "Reverse Switching", defaultValue: false}  
+	input "reverseMode", "bool", title: "Reverse Temperatures", defaultValue: false 
 	}
    section() {input "debugMode", "bool", title: "Enable debug logging", defaultValue: false}  // required: true, 
 	section(){} 
@@ -108,7 +107,6 @@ def subscribeNow() {
 	
 	logCheck()
 	state.enable = switch1
-	
 	if(reverseMode == false){
 	state.confTempOff = temperature2
     state.confTempOn = temperature1
@@ -117,7 +115,6 @@ def subscribeNow() {
 	state.confTempOff = temperature1
     state.confTempOn = temperature2
 	}
-	
 	state.baseTemp = temperatureBase
    }
 
