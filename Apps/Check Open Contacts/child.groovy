@@ -286,8 +286,9 @@ def talkNow1() {
 	LOGDEBUG("Speaker(s) in use: $speaker1")     
 	def open = sensors.findAll { it?.latestValue("contact") == 'open' }
 		if (open) { 
-		LOGDEBUG("Open windows or doors: ${open.join(',')}")
-		state.fullMsg1 = "$newmsg ,  ${open.join(',')}"
+		def openList = open.size() > 1 ? [open.init().join(', '), open.last()].join(' and ') : open.first()
+		LOGDEBUG("Open windows or doors: ${openList}")
+		state.fullMsg1 = "$newmsg ${openList}"
          if(switchMode1 == true){
     	 if(switchMode2 == true){switchOn()}
      	 if(switchMode2 == false){switchOff()}
